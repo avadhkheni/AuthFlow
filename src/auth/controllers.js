@@ -1,22 +1,7 @@
 const User = require("../Users/model");
 
-// const register = async (req, res) => {
-//   try {
-//     const { name, email, password } = req.body;
 
-//     if (!name || !email || !password) {
-//       return res.status(400).json({ msg: "Please provide all required fields" });
-//     }
-
-//     // Here you would typically hash the password and save the user to the database
-//     // For simplicity, we are just returning a success message
-//     res.status(201).json({ msg: "User registered successfully", data: { name, email, password } });
-
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ msg: "Internal server error", error });
-//   } 
-// }
+// Register user
 
 const register = async (req, res) => {
   try {
@@ -35,6 +20,8 @@ const register = async (req, res) => {
   }
 };
 
+// Login user
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -49,6 +36,8 @@ const login = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error", error });
   }
 }
+
+// Logout user
 const logout = (req, res) => {  
     try {
         return res.status(200).json({ msg: "User logged out successfully" });

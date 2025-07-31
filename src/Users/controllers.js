@@ -68,18 +68,12 @@ const deleteOne = async (req, res) => {
 
    const id = req.params["id"];
   const result = await User.findByIdAndDelete(id);
-  
-  if (!result) {
-      return res.status(404).json({ msg: "User not found" });
-    }
-    console.log(result);
-    return res.status(204).json({ msg: "User deleted successfully" });
+   return res.status(200).json({ msg: `User deleted successfully, ${JSON.stringify(result)}` });
 
  }catch(error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });
   } 
 };
-
 
 module.exports = { getAll, getOne,  updateOne, deleteOne };

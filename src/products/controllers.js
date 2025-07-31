@@ -42,13 +42,13 @@ const getOne = async (req, res) => {
 const createOne = async (req, res) => {
   try {
     //  ratting, category, disconnect, createdAt, color
-    const { name, price, desc } = req.body;
+    const { productname, price, desc } = req.body;
 
-    if (!name || !price ) {
+    if (!productname || !price ) {
       return res.status(400).json({ msg: "Please provide all required fields" });
     }
       // ratting, category, disconnect, createdAt, color
-    const product = await Product.create({ name, price, desc });
+    const product = await Product.create({ productname, price, desc });
     res.status(201).json({ msg: "Product created", data: product });
     
   } catch (error) {
@@ -65,12 +65,12 @@ const updateOne = async (req, res) => {
     const product = await Product.findById(id);
     if (!product) return res.json({ msg: "Product not found" });
     // , ratting, category, disconnect, createdAt, color
-    const { name, price, desc } = req.body;
+    const { productname, price, desc } = req.body;
 
     await Product.findOneAndUpdate(
       { _id: id },
       // , ratting, category, disconnect, createdAt, color
-      { name, price, desc }
+      { productname, price, desc }
     );
 
     res.status(200).json({ msg: "Product updated successfully" });
@@ -87,7 +87,7 @@ const deleteOne = async (req, res) => {
 
    const id = req.params["id"];
   const result = await Product.findByIdAndDelete(id);
-  res.status(204).json({ msg: `Product deleted successfully, ${JSON.stringify(result)}` });
+  res.status(200).json({ msg: `Product deleted successfully, ${JSON.stringify(result)}` });
 
  }catch(error) {
     console.error(error);

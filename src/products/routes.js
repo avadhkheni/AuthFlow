@@ -11,10 +11,11 @@ router.get("/ReadOneProduct/:id", product.getOne);
 // 3.create
 router.post("/CreateProduct", product.createOne);
 
-//4.delete
+//4.update
+router.put("/UpdateProduct/:id", product.updateOne);
+
+//5.delete
 router.delete("/DeleteProduct/:id", product.deleteOne );
 
-//5.update
-router.put("/UpdateProduct/:id", product.updateOne);
 
 module.exports = router;
