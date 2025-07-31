@@ -4,18 +4,16 @@ const user = require ("./controllers");
 
 //1.read All-
 
-router.get("/test", user.getAll);
-
-// Routes.get("/test/2", product.getAll);
+router.get("/getAllUsers", user.getAll);
 
 //2.read One
-router.get("/product/:id", user.getOne);
+router.get("/GetOneUser/:id", user.getOne);
 
 //5.update
-router.put("/:index", user.updateOne);
+router.put("/UpdateUser/:id", user.updateOne);
 
 //4.delete
-router.delete("/:index", user.deleteOne );
+router.delete("/DeleteUser/:id", user.deleteOne);
 
 
 

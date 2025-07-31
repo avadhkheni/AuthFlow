@@ -38,25 +38,6 @@ const getOne = async (req, res) => {
 
 };
 
-// Create one product
-// const createOne = async (req, res) => {
-//   try {
-//     //  ratting, category, disconnect, createdAt, color
-//     const { name, email, password } = req.body;
-
-//     if (!name || !email || !password) {
-//       return res.status(400).json({ msg: "Please provide all required fields" });
-//     }
-
-//     const user = await User.create({ name, email, password });
-//     return res.status(201).json({ msg: "User created", data: user });
-    
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ msg: "Internal server error" });
-//   }
-// };
-
 // Update one product
 const updateOne = async (req, res) => {
   try {
@@ -65,12 +46,12 @@ const updateOne = async (req, res) => {
     const user = await User.findById(id);
     if (!user) return res.json({ msg: "User not found" });
     // , ratting, category, disconnect, createdAt, color
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     await User.findOneAndUpdate(
       { _id: id },
       // , ratting, category, disconnect, createdAt, color
-      { name, email, password }
+      { username, email, password }
     );
 
     return res.status(200).json({ msg: "User updated successfully" });
@@ -87,12 +68,18 @@ const deleteOne = async (req, res) => {
 
    const id = req.params["id"];
   const result = await User.findByIdAndDelete(id);
-  res.status(204).json({ msg: `User deleted successfully, ${JSON.stringify(result)}` });
+  
+  if (!result) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    console.log(result);
+    return res.status(204).json({ msg: "User deleted successfully" });
 
  }catch(error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });
   } 
 };
+
 
 module.exports = { getAll, getOne,  updateOne, deleteOne };
