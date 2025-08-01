@@ -24,12 +24,21 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ msg: "Please provide email and password" });
-    }
-    return res.status(200).json({ msg: "User logged in successfully", data: { email, password } });
+    const user = await User.findOne({
+      $or:[{username: identifier}, {email: identifier}]
+    });
+
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+
+      if(user.password !== password) {
+        return res.status(401).json({ msg: "Invalid password" });
+      }
+
+      return res.status(200).json({ msg: "User logged in successfully", data: { username: user.username, email: user.email } });
 
   } catch (error) {
     console.error(error);
