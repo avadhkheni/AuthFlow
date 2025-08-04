@@ -2,40 +2,40 @@ const Product = require("./model");
 
 // Get all products
 const getAll = async (req, res) => {
-
   try {
     const products = await Product.find();
-   return res.status(200).json({
+    console.log("Session data:", req.session.data);
+    if (req.session?.data) {
+      req.session.data = req.session.data + 1;
+    } else {
+      req.session.data = 1;
+    }
+    
+    return res.status(200).json({
       data: products,
       msg: "All products",
     });
-
   } catch (error) {
-
     console.error(error);
     return res.status(500).json({
-       msg: "Internal server error ",
-      error: error
+      msg: "Internal server error ",
+      error: error,
     });
   }
 };
 
 // Get one product by ID
 const getOne = async (req, res) => {
-
   try {
     const id = req.params.id;
     const product = await Product.findById(id);
 
     if (!product) return res.status(404).json({ msg: "Product not found" });
     return res.json({ data: product, msg: "Product found" });
-
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     return res.status(200).json({ msg: "Internal server error" });
   }
-
 };
 
 // Create one product
@@ -44,13 +44,14 @@ const createOne = async (req, res) => {
     //  ratting, category, disconnect, createdAt, color
     const { productname, price, desc } = req.body;
 
-    if (!productname || !price ) {
-      return res.status(400).json({ msg: "Please provide all required fields" });
+    if (!productname || !price) {
+      return res
+        .status(400)
+        .json({ msg: "Please provide all required fields" });
     }
-      // ratting, category, disconnect, createdAt, color
+    // ratting, category, disconnect, createdAt, color
     const product = await Product.create({ productname, price, desc });
     res.status(201).json({ msg: "Product created", data: product });
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal server error" });
@@ -60,7 +61,6 @@ const createOne = async (req, res) => {
 // Update one product
 const updateOne = async (req, res) => {
   try {
-
     const id = req.params["id"];
     const product = await Product.findById(id);
     if (!product) return res.json({ msg: "Product not found" });
@@ -74,7 +74,6 @@ const updateOne = async (req, res) => {
     );
 
     res.status(200).json({ msg: "Product updated successfully" });
-
   } catch (error) {
     console.error(error);
     return res.status(404).json({ msg: "failed to update" });
@@ -83,16 +82,16 @@ const updateOne = async (req, res) => {
 
 // Delete one product
 const deleteOne = async (req, res) => {
- try{
-
-   const id = req.params["id"];
-  const result = await Product.findByIdAndDelete(id);
-  res.status(200).json({ msg: `Product deleted successfully, ${JSON.stringify(result)}` });
-
- }catch(error) {
+  try {
+    const id = req.params["id"];
+    const result = await Product.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ msg: `Product deleted successfully, ${JSON.stringify(result)}` });
+  } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error" });
-  } 
+  }
 };
 
 module.exports = { getAll, getOne, createOne, updateOne, deleteOne };

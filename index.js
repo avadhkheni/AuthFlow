@@ -1,8 +1,15 @@
 const express = require('express');
+const session = require('express-session');
 const connectDB = require('./src/config/db');
 
 const app = express();
 app.use(express.json());
+app.use(session({
+  secret: 'ojefCCESQ8',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { httpOnly: true, secure: false, sameSite: 'Lax' } // Set to true if using HTTPS
+}));
 
 connectDB();
 
