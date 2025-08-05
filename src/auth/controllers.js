@@ -47,14 +47,34 @@ const login = async (req, res) => {
 }
 
 // Logout user
-const logout = (req, res) => {  
-    try {
-        return res.status(200).json({ msg: "User logged out successfully" });
-    
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ msg: "Internal server error", error });
+const logout = (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ msg: "Internal server error", error: err });
+      }
+      return res.status(200).json({ msg: "User logged out successfully" });
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Internal server error", error });
     }
     }
+
+
+    // const profile =(req,res)=>{
+    //   if (!req.user) {
+    //     return res.status(401).json({ msg: "User not authenticated" });
+    //   }
+
+    //   res.status(200).json({
+    //     msg:"User profile retrieved successfully",
+    //     data:{
+    //       username: req.user.username,
+    //       email: req.user.email
+    //     }
+    //   })
+    // }
 
 module.exports = { register, login, logout };
