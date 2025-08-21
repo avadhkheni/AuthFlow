@@ -5,21 +5,25 @@ const connectDB = require('./src/config/db');
 const app = express();
 app.use(express.json());
 app.use(session({
-  secret: 'ojefCCESQ8',
+  secret: 'Putkey',
   resave: false,
   saveUninitialized: true,
-  cookie: { httpOnly: true, secure: false, sameSite: 'Lax' } 
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+  }
 }));
 
-connectDB();
 
-const authRoutes = require('./src/auth/routes');
-const productRoutes = require('./src/products/routes');
-const userRoutes = require('./src/Users/routes');
+const authRoutes = require('./src/routes/authRoutes');
+const productRoutes = require('./src/routes/productRoutes');
+const userRoutes = require('./src/routes/userRoutes');
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
+
+connectDB();
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

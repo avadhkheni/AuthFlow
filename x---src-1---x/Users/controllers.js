@@ -42,14 +42,14 @@ const getOne = async (req, res) => {
 const updateOne = async (req, res) => {
   try {
 
-    const id = req.params["id"];
+    const id = req.params.id;
     const user = await User.findById(id);
     if (!user) return res.json({ msg: "User not found" });
     // , ratting, category, disconnect, createdAt, color
     const { username, email, password } = req.body;
 
     await User.findOneAndUpdate(
-      { _id: id },
+      { id },
       // , ratting, category, disconnect, createdAt, color
       { username, email, password }
     );
@@ -66,7 +66,7 @@ const updateOne = async (req, res) => {
 const deleteOne = async (req, res) => {
  try{
 
-   const id = req.params["id"];
+   const id = req.params.id;
   const result = await User.findByIdAndDelete(id);
    return res.status(200).json({ msg: `User deleted successfully, ${JSON.stringify(result)}` });
 

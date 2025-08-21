@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const user = require ("./controllers");
-const authUser = require("../auth/middleware/authUser");
+const { authUser } = require("../auth/middleware/authUser");
 
 //1.read All-
 
@@ -15,7 +15,5 @@ router.put("/UpdateUser/:id", authUser, user.updateOne);
 
 //4.delete
 router.delete("/DeleteUser/:id", authUser, user.deleteOne);
-
-
 
 module.exports = router;
