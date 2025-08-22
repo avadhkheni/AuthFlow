@@ -9,11 +9,11 @@ const productSchema = new mongoose.Schema({
     category: { type: String, enum: ['clothes', 'electronics', 'furniture'] },
     disconnect: { type: Number,default: 1 },
     createdAt: { type: Date, default: Date.now },
-    color:{type:[String]},
-    size:[],
+    // color:{type:[String]},
+    // size:[],
     image:String
  });
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+module.exports = Product ;

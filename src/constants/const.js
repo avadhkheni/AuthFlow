@@ -1,7 +1,6 @@
-const USER_ROLES = {
+const USERROLE  = {
     ADMIN:3323,
     BUYER:3324,
     SELAER:3325,
-}
-
-module.exports = USER_ROLES
+};
+module.exports = { USERROLE  }

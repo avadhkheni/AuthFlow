@@ -1,25 +1,22 @@
-// import User from "../models/userMod";
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
-// import bcrypt from "bcryptjs";
-
 
 // Register user
 
 const register = async (req, res) => {
-  try {
-    const { username, email, password , role } = req.body;
+  const { username, email, password , role } = req.body;
 
-    if (!username || !email || !password) {
-      return res.status(400).json({ msg: "Please provide all required fields" });
-    }
-    // Hash the password before saving
-    // const hashedPassword = await bcrypt.hash(password, 10);
+  if (!username || !email || !password) {
+    return res.status(400).json({ msg: "Please provide all required fields" });
+  }
+
+  try {
+
 
  if(role === USER_ROLES.ADMIN)return res.status(403).json({msg:"You cannot register"})
 
     const user = await User.create({ username, email, password ,roles:role});
-    return res.status(201).json({ msg: "User created", data: { username: user.username, email: user.email } });
+    return res.status(201).json({ msg: "User created", data: { id: newUser._id, username: user.username, email: user.email } });
       
   } catch (error) {
     console.error(error);
@@ -31,6 +28,11 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+
+    if(!res.body){
+    return res.status(400).json({msg: "Missing request body"})
+    }
+
     const { identifier, password } = req.body;
 
     const user = await User.findOne({
@@ -47,11 +49,12 @@ const login = async (req, res) => {
          username: user.username, 
          email: user.email 
         }; 
+
       return res.status(200).json({ msg: "User logged in successfully", user: req.session.user });
   } 
   catch (error) {
-    console.error(error);
-    return res.status(500).json({ msg: "Internal server error", error });
+    console.error("Login error:",error);
+    return res.status(500).json({ msg: "Login failed", error });
   }
 }
 
@@ -73,6 +76,7 @@ const logout = (req, res) => {
   }
 }
 
+
 // profile
 
     const profile =(req,res)=>{
@@ -89,4 +93,4 @@ const logout = (req, res) => {
       })
     }
 
-export { register, login, logout, profile };
+module.exports = { register, login, logout, profile }

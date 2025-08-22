@@ -21,6 +21,7 @@ const getAll = async (req, res) => {
 };
 
 // Get one product by ID
+
 const getOne = async (req, res) => {
 
   try {
@@ -76,4 +77,4 @@ const deleteOne = async (req, res) => {
   } 
 };
 
-module.exports = { getAll, getOne,  updateOne, deleteOne };
+module.exports = { getAll, getOne, updateOne, deleteOne };

@@ -8,14 +8,11 @@ const router = express.Router();
 //1.read All
 router.get("/ReadAllProducts", authUser, product.getAll);
 
-//1.getData
-router.get("/ReadData", authUser, product.getData);
-
 //2.read One
-router.get("/ReadOneProduct/:id", authUser, product.getOne);
+router.get("/ReadOneProduct/:id", authUser, product.getById);
 
 // 3.create
-router.post("/CreateProduct", authUser,uplode.single("image"), product.createOne);
+router.post("/CreateProduct", authUser, uplode.single("image"), product.createOne);
 
 //4.update
 router.put("/UpdateProduct/:id", authUser, product.updateOne);

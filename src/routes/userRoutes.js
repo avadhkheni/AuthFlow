@@ -3,8 +3,7 @@ const router = express.Router();
 const user = require ("../controllers/userController");
 const { authUser } = require("../middleware/authUser");
 
-//1.read All-
-
+//1.read All
 router.get("/getAllUsers", user.getAll);
 
 //2.read One

@@ -28,32 +28,6 @@ const getAll = async (req, res) => {
 };
 
 
-// const getData = (res,req)=>{
-//   console.log(req.cookies.count)
-
-//    res.json({
-//     msg:"coockie info"
-//    })
-// } 
-
-// Get one product by ID
-
-// const getOne = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const product = await Product.findById(id);
-//     if (!product) return res.status(404).json({ msg: "Product not found" });
-//      return res.json({ data: product, msg: "Product found" });
-//     }
-//   catch (error) {
-//     console.error(error);
-//     return res.status(200).json({ msg: "Internal server error" });
-//   }
-// };
-
-// Create one product
-
-
 const getById = async(req,res)=>{
 
 try { 
@@ -171,7 +145,7 @@ const createOne = async (req, res) => {
 
     // ✅ Create new product
     const newProduct = await Product.create({
-       name,
+    name,
     price,
     ratting,
     catagory,
@@ -203,6 +177,7 @@ const createOne = async (req, res) => {
   }
 };
 
+// update one product
 
 const updateOne = async (req, res) => {
   try {
@@ -226,6 +201,7 @@ const updateOne = async (req, res) => {
 };
 
 // Delete one product
+
 const deleteOne = async (req, res) => {
   try {
     const id = req.params["id"];
@@ -239,4 +215,4 @@ const deleteOne = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getData, getOne, createOne, updateOne, deleteOne };
+module.exports = { getAll, getById , createOne, updateOne, deleteOne };
