@@ -123,6 +123,7 @@ const createOne = async (req, res) => {
     discount,
     discount_data,
     desc,
+    image
     } = req.body;
 
     // ✅ Manual validation
@@ -153,13 +154,14 @@ const createOne = async (req, res) => {
     discount,
     discount_data,
     desc,
+     image
     });
 
-    // ✅ Link product to user
+    // Link product to user
     user.product.push(newProduct.id);
     await user.save();
 
-    // ✅ Success response
+    // Success response
     return res.status(201).json({
       success: true,
       data: newProduct,

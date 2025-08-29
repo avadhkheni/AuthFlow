@@ -13,6 +13,6 @@ router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 
 // User profile
-router.post("/profile", authController.profile);
+// router.post("/profile", authController.profile);
 
 module.exports = router;
