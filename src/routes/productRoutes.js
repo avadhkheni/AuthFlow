@@ -1,7 +1,7 @@
 const express = require("express");
 const product = require ("../controllers/productController");
 const { authUser } = require("../middleware/authUser");
-const uplode = require("../config/multer");
+const upload = require("../config/multer");
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get("/ReadAllProducts", authUser, product.getAll);
 router.get("/ReadOneProduct/:id", authUser, product.getById);
 
 // 3.create
-router.post("/CreateProduct", authUser, uplode.single("image"), product.createOne);
+router.post("/CreateProduct", authUser, upload.single("image"), product.createOne);
 
 //4.update
 router.put("/UpdateProduct/:id", authUser, product.updateOne);

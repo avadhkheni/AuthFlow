@@ -1,14 +1,14 @@
 const { UserRole } = require("../constants/const");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const saltRounds = process.env.bycrypt_solt;
+const saltRounds = process.env.bcrypt_salt || 10;
 
 // Register user
 
 const register = async (req, res) => {
-  const { username, password, email, role } = req.body;
+  const { username, password, email, contactNo, role } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !contactNo) {
     return res.status(400).json({ msg: "Please provide all required fields" });
   }
   try {
@@ -21,8 +21,11 @@ const register = async (req, res) => {
       username,
       email,
       password: hashedpassword,
+      contactNo,
       roles: role,
     });
+
+    console.log(res);
 
     return res.status(201).json({
       msg: "User created",
@@ -30,6 +33,7 @@ const register = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        contactNo: user.contactNo,
         roles: user.roles,
       },
     });

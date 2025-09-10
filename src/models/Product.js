@@ -6,11 +6,11 @@ const productSchema = new mongoose.Schema({
     desc: { type: String },
     ratting: { type: Number, enum:[0,0.5,1,1.2,2,2.5],default: 0 },
     category: { type: String, enum: ['clothes', 'electronics', 'furniture'] },
-    disconnect: { type: Number,default: 1 },
-    createdAt: { type: Date,},
-    color:{type:[String]},
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
+    discount: { type: Number, default: 1 },
+    discount_data: { type: Date, },
+    color: { type: [String] },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
     image:String

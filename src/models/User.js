@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     unique: false,
   },
   // createdAt: { type: Date, default: Date.now }
-  contectNo: Number,
+  contactNo: Number,
   email: {
     type: String,
     required: [true, "please provide an email"],

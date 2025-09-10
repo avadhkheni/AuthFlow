@@ -6,17 +6,16 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cd(null, path.json(__dirname, "..", "..", "public", "products"));
+    cb(null, path.join(__dirname, "..", "..", "public", "products"));
   },
 
-  filename: () => {
+  filename: (req, file, cb) => {
 
     const preFix = Date.now() + "-" + Math.ceil(Math.random() * 10000000);
-
-    cd(null, preFix + "-" + file.originalname);
+    cb(null, preFix + "-" + file.originalname);
   }
 });
 
-const uplode = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-module.exports = uplode;
+module.exports = upload;

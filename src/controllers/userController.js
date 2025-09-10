@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const saltRounds = parseInt(process.env.BCRYPT_SALT) || 10;
+// const saltRounds = process.env.bcrypt_salt;
 // const mongoose  = require("mongoose")
 
 
@@ -38,42 +40,64 @@ const getOne = async (req, res) => {
 };
 
 // Update one product
-const updateOne = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { username, email, password, currentPassword } = req.body;
+// const updateOne = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { username, email, password, currentPassword } = req.body;
 
     
+//     const user = await User.findById(id);
+//     if (!user) return res.status(404).json({ msg: "User not found" });
+
+//     if (password) {
+//       if (!currentPassword) {
+//         return res.status(400).json({ msg: "Current password required to update" });
+//       }
+
+//       const isPasswordOk = await bcrypt.compareSync(currentPassword, user.password);
+//       if (!isPasswordOk) {
+//         return res.status(401).json({ msg: "Wrong current password" });
+//       }
+
+//       user.password = await bcrypt.hash(password, saltRounds);
+//     }
+
+//     if (username) user.username = username;
+//     if (email) user.email = email;
+
+//     await user.save();
+
+//     return res.status(200).json({ msg: "User updated successfully" });
+//   } catch (error) {
+//     console.error("Update error:", error);
+//     return res.status(500).json({ msg: "Failed to update", error: error.message });
+//   }
+// };
+
+
+const updateOne = async (req, res) => {
+  try {
+    const  id  = req.params["id"];
+
     const user = await User.findById(id);
-    if (!user) return res.status(404).json({ msg: "User not found" });
-
-    if (password) {
-      if (!currentPassword) {
-        return res.status(400).json({ msg: "Current password required to update" });
-      }
-
-      const isPasswordOk = await bcrypt.compare(currentPassword, user.password);
-      if (!isPasswordOk) {
-        return res.status(401).json({ msg: "Wrong current password" });
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
     }
+  const { username , email } = req.body;
 
-    if (username) user.username = username;
-    if (email) user.email = email;
-
-    await user.save();
+    await User.findOneAndUpdate({_id:id},{username,email},  { new: true }  )
 
     return res.status(200).json({ msg: "User updated successfully" });
   } catch (error) {
     console.error("Update error:", error);
-    return res.status(500).json({ msg: "Failed to update", error: error.message });
+    return res.status(500).json({
+      msg: "Failed to update",
+      error: error.message,
+    });
   }
 };
 
-    
+// module.exports = { updateOne };
 
 // Delete one product
 const deleteOne = async (req, res) => {

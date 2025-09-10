@@ -105,29 +105,34 @@ try {
 
 const createOne = async (req, res) => {
   try {
-    const user_id = req.user.id;
+     console.log("req.body : ", req.body)
+      console.log("req.file : ", req.file)
 
-    // ✅ Image handling (from multer)
-    let imagePath = "";
-    if (req.file) {
-      imagePath = "/products/" + req.file.filename; // store relative path only
-    }
+      
+      // ✅ Image handling (from multer)
+      let file = "";
+      if (req.file?.filename) {
+        file = "/products/" + req.file.filename; // store relative path only
+      }
+      const user_id = req.user.id;
+      const user = await User.findById(user_id);
 
     // ✅ Destructure body fields
     const {
-    name,
-    price,
-    ratting,
-    catagory,
-    subcategory,
-    discount,
+      productname,
+      price,
+      desc,
+      ratting,
+      category,
+      // subcategory,
+      discount,
+      color,
     discount_data,
-    desc,
     image
     } = req.body;
 
-    // ✅ Manual validation
-    if (!name || price === undefined || !catagory || !subcategory || !color || color.length === 0) {
+    //  Manual validation
+    if (!productname || price === undefined || !category|| !color || color.length === 0) {
       return res.status(400).json({
         success: false,
         message:
@@ -135,8 +140,7 @@ const createOne = async (req, res) => {
       });
     }
 
-    // ✅ Check if user exists
-    const user = await User.findById(user_id);
+    // const user = await User.findById(user_id);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -144,21 +148,22 @@ const createOne = async (req, res) => {
       });
     }
 
-    // ✅ Create new product
+    //  Create new product
     const newProduct = await Product.create({
-    name,
+    productname,
     price,
+    desc,
     ratting,
-    catagory,
-    subcategory,
+    category,
     discount,
     discount_data,
-    desc,
-     image
+    color,
+    user: user_id,
+    image: file
     });
 
     // Link product to user
-    user.product.push(newProduct.id);
+    user.Products.push(newProduct._id);
     await user.save();
 
     // Success response

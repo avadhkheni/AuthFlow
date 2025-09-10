@@ -18,9 +18,9 @@ app.use(session({
   }
 }));
 
-app.get("/test",(req,res)=>{
-  res.json({msg:""})
-})
+// app.get("/test",(req,res)=>{
+//   res.json({msg:""})
+// })
 
 app.use(express.static(path.join(__dirname,"public")))
 
