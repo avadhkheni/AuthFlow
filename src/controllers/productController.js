@@ -27,7 +27,7 @@ const getAll = async (req, res) => {
   }
 };
 
-
+// Get product by ID 
 const getById = async(req,res)=>{
 
 try { 
@@ -68,41 +68,9 @@ try {
   })
 }
 
-}
+};
 
-// const createOne = async (req, res) => {
-//   try {
-//     //  ratting, category, disconnect, createdAt, color'
-    
-//     const user_id = req.user.id;
-
-
-//     let imagePath = "";
-//     if(req.file){
-//     imagePath = "/products" + req.file.filename;
-//     }
-
-    
-//     const { productname, price, desc } = req.body;
-
-//     if (!productname || !price ) {
-//       return res
-//         .status(400)
-//         .json({ msg: "Please provide all required fields" });
-//     }
-//     // ratting, category, disconnect, createdAt, color
-//     const product = await Product.create({ productname, price, desc });
-//     res.status(201).json({ msg: "Product created", data: product });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ msg: "Internal server error" });
-//   }
-// };
-
-
-
-// Update one product
-
+// Create one product
 const createOne = async (req, res) => {
   try {
      console.log("req.body : ", req.body)
@@ -184,8 +152,7 @@ const createOne = async (req, res) => {
   }
 };
 
-// update one product
-
+// Update one product
 const updateOne = async (req, res) => {
   try {
     const id = req.params["id"];
@@ -208,7 +175,6 @@ const updateOne = async (req, res) => {
 };
 
 // Delete one product
-
 const deleteOne = async (req, res) => {
   try {
     const id = req.params["id"];
@@ -222,4 +188,34 @@ const deleteOne = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getById , createOne, updateOne, deleteOne };
+module.exports = { getAll, getById, createOne, updateOne, deleteOne };
+
+//xxxxxxxxxxxxxxxxxxxxxx
+// const createOne = async (req, res) => {
+//   try {
+//     //  ratting, category, disconnect, createdAt, color'
+    
+//     const user_id = req.user.id;
+
+
+//     let imagePath = "";
+//     if(req.file){
+//     imagePath = "/products" + req.file.filename;
+//     }
+
+    
+//     const { productname, price, desc } = req.body;
+
+//     if (!productname || !price ) {
+//       return res
+//         .status(400)
+//         .json({ msg: "Please provide all required fields" });
+//     }
+//     // ratting, category, disconnect, createdAt, color
+//     const product = await Product.create({ productname, price, desc });
+//     res.status(201).json({ msg: "Product created", data: product });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ msg: "Internal server error" });
+//   }
+// };

@@ -6,19 +6,18 @@ const upload = require("../config/multer");
 const router = express.Router();
 
 //1.read All
-router.get("/ReadAllProducts", authUser, product.getAll);
+router.get("/", authUser, product.getAll);
 
 //2.read One
-router.get("/ReadOneProduct/:id", authUser, product.getById);
+router.get("/:id", authUser, product.getById);
 
 // 3.create
-router.post("/CreateProduct", authUser, upload.single("image"), product.createOne);
+router.post("/", authUser, upload.single("image"), product.createOne);
 
 //4.update
-router.put("/UpdateProduct/:id", authUser, product.updateOne);
+router.put("/:id", authUser, product.updateOne);
 
 //5.delete
-router.delete("/DeleteProduct/:id", product.deleteOne );
-
+router.delete("/:id", product.deleteOne );
 
 module.exports = router;

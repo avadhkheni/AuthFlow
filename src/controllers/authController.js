@@ -3,8 +3,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const saltRounds = process.env.bcrypt_salt || 10;
 
-// Register user
 
+// Register user
 const register = async (req, res) => {
   const { username, password, email, contactNo, role } = req.body;
 
@@ -44,13 +44,14 @@ const register = async (req, res) => {
 };
 
 // Login user
-
 const login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
 
-    if (!req.body) {
-      return res.status(400).json({ msg: "Missing request body" });
+    if (!identifier || !password) {
+      return res
+        .status(400)
+        .json({ msg: "please provide all required fields" });
     }
 
     const user = await User.findOne({
@@ -65,60 +66,42 @@ const login = async (req, res) => {
     if (!ispasswordisok)
       return res.status(401).json({ msg: "password is Worng" });
 
-    // if (user.password !== password)
-    //   return res.status(401).json({ msg: "Invalid password" });
-
     req.session.user = {
       id: user._id,
       username: user.username,
+      email: user.email,
+      contactNo: user.contactNo,
+      roles: user.roles,
     };
 
     return res
       .status(200)
       .json({ msg: "User logged in successfully", user: req.session.user });
+
   } catch (error) {
+
     console.error("Login error:", error);
     return res.status(500).json({ msg: "Login failed", error });
   }
 };
 
 // Logout user
-
 const logout = (req, res) => {
   try {
-    req.session
-      .destroy
-      // (err) => {
-      //   if (err) {
-      //     console.error(err);
-      //     return res
-      //       .status(500)
-      //       .json({ msg: "Internal server error", error: err });
-      //   }
-      //   res.clearCookie("connect.sid");
-      //  }
-      ();
-    return res.status(200).json({ msg: "User logged out successfully" });
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res
+          .status(500)
+          .json({ msg: "Internal server error", error: err });
+      }
+      res.clearCookie("connect.sid");
+      return res.status(200).json({ msg: "User logged out successfully" });
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal server error", error });
   }
 };
-
-// profile
-
-// const profile = (req, res) => {
-//   if (!req.user) {
-//     return res.status(401).json({ msg: "User not authenticated" });
-//   }
-
-//   res.status(200).json({
-//     msg: "User profile retrieved successfully",
-//     data: {
-//       username: req.user.username,
-//       email: req.user.email,
-//     },
-//   });
-// };
 
 module.exports = { register, login, logout };
